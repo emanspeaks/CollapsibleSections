@@ -43,11 +43,9 @@ class CollapsibleSections {
 
 			// Iterate over each of these h nodes
 			foreach ($nodes as $index => $h) {
-				/*
 				//first check if it's in an mw:toc...if so, skip it
 				$x = $h;
 				while ($x = $x->parentNode) if ($x->localName === "toc") continue 2;
-				*/
 				
 				// Create an outer div node that we'll use as our wrapper
 				$div1 = $doc->createElement("div");
