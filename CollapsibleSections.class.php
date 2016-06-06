@@ -28,7 +28,7 @@ class CollapsibleSections {
 
 		
 
-		$result = preg_split('/(<[^\/]?h[123456].*>/i', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$result = preg_split('/(<[^\/]?h[123456].*>)/i', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 		
 		file_put_contents("/opt/meza/htdocs/wikis/topo/images/text.txt",print_r($result,true),FILE_APPEND);
 		
