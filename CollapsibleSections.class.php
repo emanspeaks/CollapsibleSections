@@ -23,28 +23,29 @@ if ( ! defined( 'MEDIAWIKI' ) ) {
 
 class CollapsibleSections {
 
-        // put sections in a page into mw-collapsible divs
-        static function onParserAfterTidy( &$parser, &$text ) {
+	// put sections in a page into mw-collapsible divs
+	static function onParserAfterTidy( &$parser, &$text ) {
 
-                //file_put_contents("/opt/meza/htdocs/wikis/topo/images/pretext.txt",$text,FILE_APPEND);
+		//file_put_contents("/opt/meza/htdocs/wikis/topo/images/pretext.txt",$text,FILE_APPEND);
 
-                for ($i = 1; $i < 7; $i++) {
-                        $last = 0;
-                        $open = stripos($text, "<h$i");
-                        while ($open !== false) {
-                                //$pretext = $text;
-																$close = stripos($text, "</h$i>", $open);
-                                $text = substr($text,0,$open) . (($last>0)? '</div>' : '') . substr($text,$open,$close-$open+5) . '<div class="mw-collapsible">' . substr($text,$close+5);
-                                $last = $close+5;
-																$open = stripos($text, "<h$i", $last);
-                        }
-                        if ($last>0) $text .= '</div>';
-                }
+		for ($i = 1; $i < 7; $i++) {
+			$last = 0;
+			$open = stripos($text, "<h$i");
+			while ($open !== false) {
+				//$pretext = $text;
+				$close = stripos($text, "</h$i>", $open);
+				$text = substr($text,0,$open) . (($last>0)? '</div></div>' : '') . '<div class="mw-collapsible">' . substr($text,$open,$close-$open+5) . 
+					'<div class="mw-collapsible-content">' . substr($text,$close+5);
+				$last = $close+5;
+				$open = stripos($text, "<h$i", $last);
+			}
+			if ($last>0) $text .= '</div></div>';
+		}
 
-                //file_put_contents("/opt/meza/htdocs/wikis/topo/images/text.txt",$text,FILE_APPEND);
-                return true;
+		//file_put_contents("/opt/meza/htdocs/wikis/topo/images/text.txt",$text,FILE_APPEND);
+		return true;
 
-        } // function onParserAfterTidy
+	} // function onParserAfterTidy
 
 
 } // class CollapsibleSections
