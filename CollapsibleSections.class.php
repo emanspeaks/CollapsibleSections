@@ -28,12 +28,15 @@ class CollapsibleSections {
 		// store any namespaced elements so we can re-add them later 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
 		$text = preg_replace('/<([\/]?)(\w+):(\w+)/', '<\1\3 namespace="\2"' , $text); 
-
+		
+		$doc = new DOMDocument();
+		
+		//unicode fix
+		//adapted from http://stackoverflow.com/questions/15704144/php-domdocument-is-not-rendering-unicode-characters-properly
+		$doc->loadHTML(mb_convert_encoding($text , 'HTML-ENTITIES', 'UTF-8'));
+		
 		//wrapping solution
 		//adapted from http://stackoverflow.com/questions/10703057/wrap-all-html-tags-between-h3-tag-sets-with-domdocument-in-php
-		$doc = new DOMDocument();
-		$doc->loadHTML($text);
-		
 		for ($i = 1; $i < 7; $i++){
 			// Grab a nodelist of all h tags
 			$nodes = $doc->getElementsByTagName("h$i");
@@ -75,7 +78,7 @@ class CollapsibleSections {
 		
 		// re-construct any namespaced tags 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
-		$text = preg_replace('/<([\/]?)(\w+) namespace="(\w+)"/', '<\1\3:\2' , $text);
+		$text = preg_replace('/<([\/]?)(\w+)(.*)namespace="(\w+)"/', '<\1\4:\2\3' , $text);
 		
 		return true;
 
