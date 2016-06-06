@@ -25,12 +25,9 @@ class CollapsibleSections {
 
 	// put sections in a page into mw-collapsible divs
 	static function onParserAfterTidy( &$parser, &$text ) {
-
-		//file_put_contents("/opt/meza/htdocs/wikis/topo/images/pretext.txt",$text,FILE_APPEND);
-
 		// store any namespaced elements so we can re-add them later 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
-		$text = preg_replace('/<(\w+):(\w+)/', '<\2 namespace="\1"' , $text); 
+		$text = preg_replace('/<([\/]?)(\w+):(\w+)/', '<\1\3 namespace="\2"' , $text); 
 
 		//wrapping solution
 		//adapted from http://stackoverflow.com/questions/10703057/wrap-all-html-tags-between-h3-tag-sets-with-domdocument-in-php
@@ -54,7 +51,7 @@ class CollapsibleSections {
 				$div2 = $doc->createElement("div");
 				$div2->setAttribute("class", "mw-collapsible-content");
 				
-				// Move next siblings of h until we hit another h
+				// Move next siblings of h until we hit another h	
 				while ($h->nextSibling && $h->nextSibling->localName !== "h$i") $div2->appendChild($h->nextSibling);
 				
 				//find next h node and parent
@@ -78,9 +75,8 @@ class CollapsibleSections {
 		
 		// re-construct any namespaced tags 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
-		$text = preg_replace('/<(\w+) namespace="(\w+)"/', '<\2:\1 ' , $text);
+		$text = preg_replace('/<([\/]?)(\w+) namespace="(\w+)"/', '<\1\3:\2' , $text);
 		
-		file_put_contents("/opt/meza/htdocs/wikis/topo/images/text.txt",$text,FILE_APPEND);
 		return true;
 
 	} // function onParserAfterTidy
