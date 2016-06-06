@@ -28,43 +28,14 @@ class CollapsibleSections {
 
 		//file_put_contents("/opt/meza/htdocs/wikis/topo/images/pretext.txt",$text,FILE_APPEND);
 
-		//gotta clear out the mw:toc elements before passing to DOM
-		
-		$mwtocidx = stripos($text,"<mw:toc");
-		if ($mwtocidx !== false)
-		{
-			$pretoc = substr($text,0,$mwtocidx);
-			$mwtoc = substr($text,$mwtocidx);
-			$mwtocidx = stripos($mwtocidx,"<\mw:toc>");
-			$posttoc = substr($mwtoc,$mwtocidx+9);
-			$mwtoc = substr($mwtoc,0,$mwtocidx+9);
-			$text = $pretoc.'<mwtoc />'.$posttoc;
-		}
-		
-		$doc = new DOMDocument();
-		$doc->loadHTML($text);
-		
-		//do some cleanup to get back to just the tags from the text
-		//adapted from http://stackoverflow.com/questions/10416704/remove-parent-element-keep-all-inner-children-in-domdocument-with-savehtml
-		
-		// Remove doctype node
-		$doc->doctype->parentNode->removeChild($doc->doctype);
-		// Remove html element, preserving child nodes
-		$html = $doc->getElementsByTagName("html")->item(0);
-		/*
-		$fragment = $doc->createDocumentFragment();
-		while ($html->childNodes->length > 0) $fragment->appendChild($html->childNodes->item(0));
-		$html->parentNode->replaceChild($fragment, $html);
-		*/
-		// Remove body element, preserving child nodes
-		$body = $doc->getElementsByTagName("body")->item(0);
-		$fragment = $doc->createDocumentFragment();
-		while ($body->childNodes->length > 0) $fragment->appendChild($body->childNodes->item(0));
-		//$body->parentNode->replaceChild($fragment, $body);
-		$html->parentNode->replaceChild($fragment, $html);
+		// store any namespaced elements so we can re-add them later 
+		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
+		$text = preg_replace('/<(\w+):(\w+)/', '<\2 namespace="\1"' , $text); 
 
 		//wrapping solution
 		//adapted from http://stackoverflow.com/questions/10703057/wrap-all-html-tags-between-h3-tag-sets-with-domdocument-in-php
+		$doc = new DOMDocument();
+		$doc->loadHTML($text);
 		
 		for ($i = 1; $i < 7; $i++){
 			// Grab a nodelist of all h tags
@@ -101,9 +72,15 @@ class CollapsibleSections {
 			}
 		}
 
-		$text = $doc->saveHTML();
 		
-		$text = str_replace("<mwtoc />",$mwtoc,$text);
+		
+		//do some cleanup to get back to just the tags from the text
+		// adapted from http://php.net/manual/en/domdocument.savehtml.php
+		$text = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $doc->saveHTML()));
+		
+		// re-construct any namespaced tags 
+		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
+		$text = preg_replace('/<(\w+) namespace="(\w+)"/', '<\2:\1 ' , $text);
 		
 		file_put_contents("/opt/meza/htdocs/wikis/topo/images/text.txt",$text,FILE_APPEND);
 		return true;
