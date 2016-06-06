@@ -27,7 +27,8 @@ class CollapsibleSections {
 	static function onParserAfterTidy( &$parser, &$text ) {
 		// store any namespaced elements so we can re-add them later 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
-		$text = preg_replace('/<(\/|)(\w+):(\w+)/', '<\1\3 namespace="\2"' , $text); 
+		$text = preg_replace('/<(\w+):(\w+)/', '<\2 namespace="\1"' , $text); 
+		$text = preg_replace('/<\/(\w+):(\w+)>/', '</\2 namespace="\1">' , $text); 
 		
 		$doc = new DOMDocument();
 		
@@ -78,7 +79,8 @@ class CollapsibleSections {
 		
 		// re-construct any namespaced tags 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
-		$text = preg_replace('/<(\/|)(\w+)([^>]*)namespace="(\w+)"/', '<\1\4:\2\3', $text);
+		$text = preg_replace('/<(\w+)([^>]*)namespace="(\w+)"/', '<\3:\1\2', $text);
+		$text = preg_replace('/<\/(\w+) namespace="(\w+)">/', '</\2:\1>', $text);
 		
 		return true;
 
