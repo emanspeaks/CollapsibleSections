@@ -78,7 +78,7 @@ class CollapsibleSections {
 		
 		// re-construct any namespaced tags 
 		// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
-		$text = preg_replace('/<([\/]?)(\w+)(.*)namespace="(\w+)"/', '<\1\4:\2\3' , $text);
+		$text = preg_replace('/<([\/]?)(\w+)([^>]*)namespace="(\w+)"/', '<\1\4:\2\3' , $text);
 		
 		return true;
 
