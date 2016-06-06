@@ -28,6 +28,19 @@ class CollapsibleSections {
 
 		//file_put_contents("/opt/meza/htdocs/wikis/topo/images/pretext.txt",$text,FILE_APPEND);
 
+		//gotta clear out the mw:toc elements before passing to DOM
+		
+		$mwtocidx = stripos($text,"<mw:toc");
+		if ($mwtocidx !== false)
+		{
+			$pretoc = substr($text,0,$mwtocidx);
+			$mwtoc = substr($text,$mwtocidx);
+			$mwtocidx = stripos($mwtocidx,"<\mw:toc>");
+			$posttoc = substr($mwtoc,$mwtocidx+9);
+			$mwtoc = substr($mwtoc,0,$mwtocidx+9);
+			$text = $pretoc.'<mwtoc />'.$posttoc;
+		}
+		
 		$doc = new DOMDocument();
 		$doc->loadHTML($text);
 		
@@ -59,9 +72,11 @@ class CollapsibleSections {
 
 			// Iterate over each of these h nodes
 			foreach ($nodes as $index => $h) {
+				/*
 				//first check if it's in an mw:toc...if so, skip it
 				$x = $h;
 				while ($x = $x->parentNode) if ($x->localName === "toc") continue 2;
+				*/
 				
 				// Create an outer div node that we'll use as our wrapper
 				$div1 = $doc->createElement("div");
@@ -87,6 +102,9 @@ class CollapsibleSections {
 		}
 
 		$text = $doc->saveHTML();
+		
+		$text = str_replace("<mwtoc />",$mwtoc,$text);
+		
 		file_put_contents("/opt/meza/htdocs/wikis/topo/images/text.txt",$text,FILE_APPEND);
 		return true;
 
