@@ -26,8 +26,9 @@ class CollapsibleSections {
 	// put sections in a page into mw-collapsible divs
 	static function onParserAfterTidy( &$parser, &$text ) {
 		
+		global $csNamespaces;
 		//is the current namespace in the enabled list?
-		if (!isset($csNamespaces) || in_array($parser->getTitle()->getNamespace(),$csNamespaces)) {
+		if (empty($csNamespaces) || in_array($parser->getTitle()->getNamespace(),$csNamespaces)) {
 			// store any namespaced elements so we can re-add them later 
 			// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
 			$text = preg_replace('/<(\w+):(\w+)/', '<\2 namespace="\1"' , $text); 

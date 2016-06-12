@@ -1,36 +1,36 @@
-<!-- README -->
-
-== What? ==
+## What?
 
 The CollapsibleSections extension puts all sections in a page into mw-collapsible divs.
 
-== Why? ==
+## Why?
 
 We wanted them for TOPO Wiki instead of manually creating them in the wikitext or using templates.  Uses the ParserAfterTidy hook to look for <h*> tags and create divs to surround them and their content, lasting until the next heading of the same level.
 
-== Download ==
+## Download
 
 Clone from GitHub at https://github.com/emanspeaks/CollapsibleSections
 
-== Installation ==
+## Installation
 
 To install this extension, add the following to LocalSettings.php:
 
- require_once( "$IP/extensions/CollapsibleSections/CollapsibleSections.php" );
+```
+require_once "$IP/extensions/CollapsibleSections/CollapsibleSections.php";
+```
  
-== Configuration ==
+## Configuration
 
 By default, the extension will work in all namespaces.  If however, you wish to only enable for specific namespaces, add a line to your LocalSettings.php similar to the following:
 
- $csNamespaces = [ NS_PROJECT ];
+```
+$csNamespaces[] = NS_PROJECT;
+```
 
-== License ==
+## License
 
 GNU Affero General Public License, version 3 or any later version. See AGPL-3.0.txt file for the
 full license text.
 
-== Links ==
+## Links
 
 * License page:   https://www.gnu.org/licenses/agpl.html
-
-<!-- end of file -->
