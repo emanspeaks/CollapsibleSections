@@ -17,6 +17,12 @@ Clone from GitHub at https://github.com/emanspeaks/CollapsibleSections
 To install this extension, add the following to LocalSettings.php:
 
  require_once( "$IP/extensions/CollapsibleSections/CollapsibleSections.php" );
+ 
+== Configuration ==
+
+By default, the extension will work in all namespaces.  If however, you wish to only enable for specific namespaces, add a line to your LocalSettings.php similar to the following:
+
+ $csNamespaces = [ NS_MAIN, NS_FILE ];
 
 == License ==
 
