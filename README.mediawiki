@@ -22,7 +22,7 @@ To install this extension, add the following to LocalSettings.php:
 
 By default, the extension will work in all namespaces.  If however, you wish to only enable for specific namespaces, add a line to your LocalSettings.php similar to the following:
 
- $csNamespaces = [ NS_MAIN, NS_FILE ];
+ $csNamespaces = [ NS_MAIN, NS_PROJECT ];
 
 == License ==
 
