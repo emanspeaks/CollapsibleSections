@@ -40,7 +40,8 @@ $wgExtensionCredits[ 'other' ][] = array(
 	'descriptionmsg'  => 'Puts sections in a page into mw-collapsible divs.',
 );
 
-global $csNamespaces = [];
+global $csNamespaces;
+$csNamespaces = [];
 
 unset( $extCollapsibleSectionsDir );
 
