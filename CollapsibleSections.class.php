@@ -27,6 +27,8 @@ class CollapsibleSections {
 	static function onParserAfterTidy( &$parser, &$text ) {
 		
 		global $csNamespaces;
+		global $csClasses;
+		
 		//is the current namespace in the enabled list?
 		if (empty($csNamespaces) || in_array($parser->getTitle()->getNamespace(),$csNamespaces)) {
 			// store any namespaced elements so we can re-add them later 
@@ -54,7 +56,7 @@ class CollapsibleSections {
 					
 					// Create an outer div node that we'll use as our wrapper
 					$div1 = $doc->createElement("div");
-					$div1->setAttribute("class", "mw-collapsible");
+					$div1->setAttribute("class", "mw-collapsible ".$csClasses);
 					// Create the inner div node used for the content
 					$div2 = $doc->createElement("div");
 					$div2->setAttribute("class", "mw-collapsible-content");

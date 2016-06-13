@@ -43,6 +43,9 @@ $wgExtensionCredits[ 'other' ][] = array(
 global $csNamespaces;
 $csNamespaces = [];
 
+global $csClasses;
+$csClasses = "";
+
 unset( $extCollapsibleSectionsDir );
 
 // end of file //
