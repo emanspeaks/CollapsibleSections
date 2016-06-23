@@ -24,13 +24,13 @@ require_once "$IP/extensions/CollapsibleSections/CollapsibleSections.php";
 By default, the extension will work in all namespaces.  If however, you wish to only enable for specific namespaces, add a line to your LocalSettings.php similar to the following:
 
 ```
-$csNamespaces[] = NS_PROJECT;
+$wgExtCollapsibleSectionsNamespaces[] = NS_PROJECT;
 ```
 ###Custom class strings
 A custom string can be appended to the class string applied to the outer div.  This is so that other style in addition to the mw-collapsible may be added to the wrapper tags.  The class string is specified by adding a line to your LocalSettings.php similar to the following:
 
 ```
-$csClasses = "tchb-box";
+$wgExtCollapsibleSectionsClasses = "tchb-box";
 ```
 
 ## License
