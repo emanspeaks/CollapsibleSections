@@ -26,11 +26,11 @@ class CollapsibleSections {
 	// put sections in a page into mw-collapsible divs
 	static function onParserAfterTidy( &$parser, &$text ) {
 		
-		global $csNamespaces;
-		global $csClasses;
+		global $wgExtCollapsibleSectionsNamespaces;
+		global $wgExtCollapsibleSectionsClasses;
 		
 		//is the current namespace in the enabled list?
-		if (empty($csNamespaces) || in_array($parser->getTitle()->getNamespace(),$csNamespaces)) {
+		if (empty($wgExtCollapsibleSectionsNamespaces) || in_array($parser->getTitle()->getNamespace(),$wgExtCollapsibleSectionsNamespaces)) {
 			// store any namespaced elements so we can re-add them later 
 			// adapted from http://stackoverflow.com/questions/10985443/php-domdocument-namespaces
 			$text = preg_replace('/<(\w+):(\w+)/', '<\2 namespace="\1"' , $text); 
@@ -56,7 +56,7 @@ class CollapsibleSections {
 					
 					// Create an outer div node that we'll use as our wrapper
 					$div1 = $doc->createElement("div");
-					$div1->setAttribute("class", "mw-collapsible ".$csClasses);
+					$div1->setAttribute("class", "mw-collapsible ".$wgExtCollapsibleSectionsClasses);
 					// Create the inner div node used for the content
 					$div2 = $doc->createElement("div");
 					$div2->setAttribute("class", "mw-collapsible-content");
